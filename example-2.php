@@ -10,7 +10,6 @@ $client = new CurlClient(
     'https://elections.api.hscc.bdpa.org/v1',
 );
 
-
 $response = $client->get('/elections')
     ->getResponse();
 
