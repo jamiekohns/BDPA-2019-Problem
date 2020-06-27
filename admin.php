@@ -9,6 +9,19 @@ if (!isAuthorized(true)) {
     header('location: login.php');
 }
 
+if (isset($_POST['submit'])) {
+    if ($_POST['password'] !== $_POST['password2']) {
+        $error = 'Passwords do not match!';
+    } else {
+        $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        // create PDO statement to INSERT into user table
+        // execute statement (wrap in try-catch!)
+
+        // create PDO statement to save a row to the access log with action = 'addUser'
+    }
+}
+
 ?>
 <html>
     <head>
@@ -34,6 +47,10 @@ if (!isAuthorized(true)) {
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="password2">Confirm Password</label>
+                    <input type="password2" class="form-control" id="password2" name="password2">
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
