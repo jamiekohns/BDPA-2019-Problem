@@ -5,16 +5,11 @@ require_once 'config/functions.php';
 
 $error = null;
 
-if (isset($_POST['submit'])) {
-    if (login($db, $_POST['username'], $_POST['password'])) {
-        header('location: index.php');
-    } else {
-        $error = 'Username or password not found!';
-    }
+if (!isAuthorized(true)) {
+    header('location: login.php');
 }
 
 ?>
-
 <html>
     <head>
         <title>Login</title>
@@ -30,7 +25,8 @@ if (isset($_POST['submit'])) {
                     echo '<div class="alert alert-danger">'.$error.'</div>';
                 }
             ?>
-            <form action="login.php" method="post">
+            <h3>Create New User</h3>
+            <form action="admin.php" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="username" name="username">
@@ -38,6 +34,24 @@ if (isset($_POST['submit'])) {
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="fist_name">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name">
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name">
+                </div>
+                <div class="form-group">
+                    <label for="user_type">Type</label>
+                    <select name="user_type" id="user_type">
+                        <option value="2">Voter</option>
+                    </select>
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
             </form>

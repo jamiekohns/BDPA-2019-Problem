@@ -11,10 +11,10 @@ if (!isAuthorized()) {
 <html>
     <head>
         <title>Elections</title>
-        <script src="js/jquery-3.5.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
-        <link href="css/style.css" type="text/css" rel="stylesheet">
+        <script src="public/js/jquery-3.5.1.min.js"></script>
+        <script src="public/js/bootstrap.min.js"></script>
+        <link href="public/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+        <link href="public/css/style.css" type="text/css" rel="stylesheet">
     </head>
     <body>
         <div class="container">

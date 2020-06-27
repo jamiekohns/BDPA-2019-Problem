@@ -8,11 +8,23 @@ function dd(...$vars) {
     echo '</pre>';
 }
 
-function isAuthorized()
+function isAuthorized($admin = false)
 {
     if (session_status() == PHP_SESSION_ACTIVE) {
         if (!isset($_SESSION['token']) || !isset($_SESSION['user'])) {
             return false;
+        }
+
+        if ($admin) {
+            $userType = $_SESSION['user']['type'];
+            $adminTypes = [
+                'administrator',
+                'root',
+            ];
+
+            if (!in_array($userType, $adminTypes)) {
+                return false;
+            }
         }
 
         $token = md5(SECRET_KEY . $_SESSION['user']['username'] . $_SESSION['user']['session_start']);
