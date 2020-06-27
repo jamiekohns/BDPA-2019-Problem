@@ -1,5 +1,7 @@
 <?php
 
+Namespace App\Client;
+
 /**
  * Class CurlClient
  *
