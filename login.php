@@ -13,7 +13,6 @@ if (isset($_POST['submit'])) {
     }
 }
 
-die()
 ?>
 
 <html>
@@ -25,21 +24,23 @@ die()
         <link href="css/style.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-        <?php
-            if ($error) {
-                echo '<div class="alert alert-danger">'.$error.'</div>';
-            }
-        ?>
-        <form action="login.php" method="post">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username">
-            </div>
-            <div class="form-group">
-                <label for="password">Username</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <div class="container">
+            <?php
+                if ($error) {
+                    echo '<div class="alert alert-danger">'.$error.'</div>';
+                }
+            ?>
+            <form action="login.php" method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Username</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </body>
 </html>
