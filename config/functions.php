@@ -76,3 +76,8 @@ function login(PDO $db, string $username, string $password)
 
     return false;
 }
+
+function hashPassword(string $password)
+{
+    return password_hash($password, PASSWORD_DEFAULT);
+}
