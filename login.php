@@ -3,7 +3,17 @@
 require_once 'config/config.php';
 require_once 'config/functions.php';
 
+$error = null;
 
+if (isset($_POST['submit'])) {
+    if (login($db, $_POST['username'], $_POST['password'])) {
+        header('location: index.php');
+    } else {
+        $error = 'Username or password not found!';
+    }
+}
+
+die()
 ?>
 
 <html>
@@ -15,6 +25,11 @@ require_once 'config/functions.php';
         <link href="css/style.css" type="text/css" rel="stylesheet">
     </head>
     <body>
+        <?php
+            if ($error) {
+                echo '<div class="alert alert-danger">'.$error.'</div>';
+            }
+        ?>
         <form action="login.php" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -24,7 +39,7 @@ require_once 'config/functions.php';
                 <label for="password">Username</label>
                 <input type="password" class="form-control" id="password" name="password">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
         </form>
     </body>
 </html>

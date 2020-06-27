@@ -1,5 +1,13 @@
 <?php
 
+function dd(...$vars) {
+    echo '<pre>';
+    foreach ($vars as $var) {
+        var_dump($var);
+    }
+    echo '</pre>';
+}
+
 function isAuthorized()
 {
     if (session_status() == PHP_SESSION_ACTIVE) {
@@ -7,7 +15,7 @@ function isAuthorized()
             return false;
         }
 
-        $token = md5(SECRET_KEY . $_SESSION['user']['username']);
+        $token = md5(SECRET_KEY . $_SESSION['user']['username'] . $_SESSION['user']['session_start']);
 
         if ($token === $_SESSION['token']) {
             return true;
@@ -19,18 +27,17 @@ function isAuthorized()
 
 function login(PDO $db, string $username, string $password)
 {
-    $loginSth = $db->prepare('SELECT * FROM `user` 
+    $loginSth = $db->prepare('SELECT * FROM `user`
       LEFT JOIN `user_type` ON (`user_type`.`id` = `user`.`user_type_id`)
-      WHERE `user`.`username` = :username AND `user`.`password_hash` = :password');
+      WHERE `user`.`username` = :username');
 
-    $hash = password_hash($password, PASSWORD_DEFAULT);
     $loginSth->execute([
         ':username' => $username,
-        ':password' => $hash,
     ]);
+
     $auth = $loginSth->fetch(PDO::FETCH_ASSOC);
 
-    if ($auth['username'] === $username) {
+    if (password_verify($password, $auth['password_hash'])) {
         $accessLogSth = $db->prepare('INSERT INTO `access_log` (`user_id`, `action`, `ip_address`, `data`)
           VALUES (:user_id, :action, :ip_address, :data)');
         $accessLogSth->execute([
@@ -42,13 +49,17 @@ function login(PDO $db, string $username, string $password)
             ])
         ]);
 
-        $_SESSION['token'] = md5(SECRET_KEY . $_SESSION['username']);
+        $sessionStart = time();
+        $_SESSION['token'] = md5(SECRET_KEY . $auth['username'] . $sessionStart);
         $_SESSION['user'] = [
             'id' => $auth['id'],
             'username' => $auth['username'],
             'name' => $auth['first_name'] . ' ' . $auth['last_name'],
-            'type' => $auth
+            'type' => $auth['type'],
+            'session_start' => $sessionStart,
         ];
+
+        return true;
     }
 
     return false;
