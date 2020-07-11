@@ -6,7 +6,7 @@ require_once 'config/functions.php';
 if (!isAuthorized()) {
     header('location: login.php');
 }
-
+// This is a comment
 ?>
 <html>
     <head>
